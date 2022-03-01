@@ -2,8 +2,8 @@
 
 tenim **pràctica1** on hi tenim 2 dockers un amb el kerberos server i l'altre amb keberos client. Els dos tenen Dockerfile per a copiar arxius de configuració.
 Només el servidor té un script per basicament crear els usuaris normals i de kerberos (i kerbero admin), executar els dimonis (krb5-admin-server i starkrb5-kdc). 
-També farem que el servidor alhora tingui configurat PAM (concretament dins /etc/pam.d/ common-auth  common-password  common-session)
-perquè utilitzi kerberos per autentificar els usuaris (1 seguretat extra). 
+També farem que el client alhora tingui configurat PAM (concretament dins /etc/pam.d/ common-auth  common-password  common-session)
+perquè utilitzi el servidor de kerberos per autentificar els usuaris XXXXX (una seguretat extra). 
 
 PD:Aquí no caldrà EXPORTAR ports ja que tot treballa amb la mateixa xarxa docker 2hisix.
 
