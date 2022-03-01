@@ -5,3 +5,8 @@ Només el servidor té un script per basicament crear els usuaris normals i de k
 PAM perquè utilitzi kerberos per autentificar els usuaris. 
 Aquí no caldrà EXPORTAR ports ja que tot treballa amb la amteixa xarxa docker 2hisix.
 
+----------------------------------------------------------------------------------------------------
+
+
+
+
