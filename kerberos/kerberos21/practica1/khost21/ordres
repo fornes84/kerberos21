@@ -1,0 +1,10 @@
+    1  apt update
+    2  apt install vim nmap procps -y
+    3  nmap localhost
+    4  apt install krb5-user
+    5  cat /etc/krb5.conf # --> NOMÉS COMPROVEM
+    6  kinit pere
+    7  klist
+    8  kadmin.local
+    9  kadmin -p marta
+   10  nmap kserver.edt.org
