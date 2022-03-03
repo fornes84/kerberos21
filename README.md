@@ -10,7 +10,7 @@ Cal el EXPOSE del dockerfile ?
 SERVIDOR:  
 sudo docker build -t balenabalena/kerberos21:kserver .  
 sudo docker push balenabalena/kerberos21:kserver  
-sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464  -it balenabalena/kserver:base  
+sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464  -it balenabalena/kerberos21:kserver  
 (ull no cal --net 2hisix, no ?)  
 
 CLIENT:  
@@ -28,7 +28,7 @@ docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balen
    10  nmap kserver.edt.org
 
 
-**RECORDAR POSAR EN EL /ETC/HOST DELS 2 HOST AMB LES IPS CORRESPONENTS !!!!!!**  
+**RECORDAR POSAR EN EL /ETC/HOST DEL HOST CLIENT AMB LES IPS CORRESPONENTS D'AMAZON PQ S?APIGA RESOLDRE EL NOM kserver.edt.org!!!!!!**  
 
 
 PROVES AL HOST CLIENT:
