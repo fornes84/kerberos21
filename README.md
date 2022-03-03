@@ -28,6 +28,17 @@ docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balen
    10  nmap kserver.edt.org
 
 
+
+
+PROVES AL HOST CLIENT:
+
+kinit pere 
+klist --> veure si hi ha algun tiket.
+
+(essent local01 usuari local)
+su local01 --> i que demani password kerberos
+
+
 ----------------------------------------------------------------------------------------------------
 
 
