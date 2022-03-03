@@ -1,14 +1,16 @@
 # kerberos21
 
-tenim **pràctica1** on hi tenim 2 dockers un amb el kerberos server i l'altre amb keberos client. Els dos tenen Dockerfile per a copiar arxius de configuració.
-Només el servidor té un script per basicament crear els usuaris normals i de kerberos (i kerbero admin), executar els dimonis (krb5-admin-server i starkrb5-kdc). 
-També farem que el client alhora tingui configurat PAM (concretament dins /etc/pam.d/ common-auth  common-password  common-session)
-perquè utilitzi el servidor de kerberos per autentificar els usuaris XXXXX (una seguretat extra). 
+Tenim **pràctica1+2** on hi tenim 1 docker en el nostre host un amb el kerberos server i un client ( en un altre host) MiniLinux Fedora 32 amb keberos client. El client s'instalarà tot a 'manija'.
+El servidor té un script per basicament crear els usuaris normals UNIX i alhora de kerberos (i 1 kerbero admin ?), executar els dimonis (krb5-admin-server i starkrb5-kdc). 
+També farem que el client alhora tingui configurat PAM (concretament posnat dins /etc/pam.d/ els fitx --> common-auth  common-password  common-session)
+perquè utilitzi el servidor de kerberos per autentificar (buscar a servidor el password que comença per 'k' al host kerberos) (això ho fa el modul pam_krb5) els usuaris locals que no tinguin PASSWORD i alhora es crearà un tiket validant que tenims drets com l'usuari conectat amb kerberos. 
 
-PD:Aquí no caldrà EXPORTAR ports ja que tot treballa amb la mateixa xarxa docker 2hisix.
+Cal el EXPOSE del dockerfile ?
 
 SERVIDOR:
-docker run --rm --name kserver.edt.org -h kserver.edt.org --net 2hisix -it balenabalena/kerberos21:kserver
+sudo docker build -t balenabalena/kerberos21:kserver .
+sudo docker push balenabalena/kerberos21:kserver
+sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749 -p 88 -p 464 --net 2hisix -it balenabalena/kerberos21:kserver
 
 CLIENT:
 docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balenabalena/kerberos21:ksclient
@@ -23,6 +25,7 @@ docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balen
     8  kadmin.local  #--> entrem a la linea de comandes kerberos-admin
     9  kadmin -p marta #
    10  nmap kserver.edt.org
+
 
 ----------------------------------------------------------------------------------------------------
 
