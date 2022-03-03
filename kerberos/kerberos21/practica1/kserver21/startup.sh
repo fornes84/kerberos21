@@ -10,6 +10,10 @@ kadmin.local -q "addprinc -pw kpere pere"
 kadmin.local -q "addprinc -pw kmarta marta"
 kadmin.local -q "addprinc -pw kanna anna"
 
+kadmin.local -q "addprinc -pw kuser01 user01"
+kadmin.local -q "addprinc -pw kuser02 user02"
+kadmin.local -q "addprinc -pw kuser03 user03"
+
 /etc/init.d/krb5-admin-server start
 /etc/init.d/krb5-kdc start
 
