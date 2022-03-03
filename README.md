@@ -28,6 +28,7 @@ docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balen
    10  nmap kserver.edt.org
 
 
+**RECORDAR POSAR EN EL /ETC/HOST DELS 2 HOST AMB LES IPS CORRESPONENTS !!!!!!**  
 
 
 PROVES AL HOST CLIENT:
