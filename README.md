@@ -10,7 +10,8 @@ Cal el EXPOSE del dockerfile ?
 SERVIDOR:
 sudo docker build -t balenabalena/kerberos21:kserver .
 sudo docker push balenabalena/kerberos21:kserver
-sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749 -p 88 -p 464 --net 2hisix -it balenabalena/kerberos21:kserver
+sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749 -p 88 -p 464  -it balenabalena/kerberos21:kserver
+(ull no cal --net 2hisix, no ?)
 
 CLIENT:
 docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balenabalena/kerberos21:ksclient
