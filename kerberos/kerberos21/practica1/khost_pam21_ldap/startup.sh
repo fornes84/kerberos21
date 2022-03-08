@@ -20,6 +20,16 @@ cp /opt/docker/nslcd.conf /etc/nslcd.conf
 ########### PART KERBEROS #################
 
 cp /opt/docker/krb5.conf /etc/krb5.conf 	# Sobreescrivim els fitxers per els nostres.
+
+# AIXO D?AQUI ABAIX NO HO PILLO, EXTRET DE CANET
+
+authconfig  --enableshadow --enablelocauthorize --enableldap \
+            --ldapserver='ldap.edt.org' --ldapbase='dc=edt,dc=org' \
+            --enablekrb5 --krb5kdc='kserver.edt.org' \
+            --krb5adminserver='kserver.edt.org' --krb5realm='EDT.ORG' \
+            --enablemkhomedir --updateall
+            
+            
 cp /opt/docker/kdc.conf /etc/krb5kdc/kdc.conf   # AQUEST NO CAL, ES DE SERVIDOR ??
 cp /opt/docker/kadm5.acl /etc/krb5kdc/kadm5.acl
 cp /opt/docker/system-auth /etc/pam.d/system-auth
