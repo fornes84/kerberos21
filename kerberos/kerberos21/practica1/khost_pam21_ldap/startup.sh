@@ -20,9 +20,11 @@ cp /opt/docker/nslcd.conf /etc/nslcd.conf
 ########### PART KERBEROS #################
 
 cp /opt/docker/krb5.conf /etc/krb5.conf 	# Sobreescrivim els fitxers per els nostres.
-cp /opt/docker/kdc.conf /etc/krb5kdc/kdc.conf
+cp /opt/docker/kdc.conf /etc/krb5kdc/kdc.conf   # AQUEST NO CAL, ES DE SERVIDOR ??
 cp /opt/docker/kadm5.acl /etc/krb5kdc/kadm5.acl
 cp /opt/docker/system-auth /etc/pam.d/system-auth
+
+cp /opt/docker/ssh_config /etc/ssh/ssh_config # pas pendent
 
 kdb5_util create -s -P masterkey
 groupadd local01
@@ -41,7 +43,7 @@ echo -e "local01\nlocal01" | passwd local01
 echo -e "local02\nlocal02" | passwd local02
 echo -e "local03\nlocal03" | passwd local03
 
-/etc/init.d/krb5-admin-server start
-/etc/init.d/krb5-kdc start
+#/etc/init.d/krb5-admin-server start # DIMONI DE SERVIDOR
+#/etc/init.d/krb5-kdc start  #DIMONI DE SERVIDOR
 
 /bin/bash
