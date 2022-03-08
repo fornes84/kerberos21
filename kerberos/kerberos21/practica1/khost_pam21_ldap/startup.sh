@@ -2,12 +2,12 @@
 
 ########### PART LDAP ######################
 
-useradd -m -s /bin/bash unix01
-useradd -m -s /bin/bash unix02
-useradd -m -s /bin/bash unix03
-echo -e "unix01\nunix01" | passwd unix01
-echo -e "unix02\nunix02" | passwd unix02
-echo -e "unix03\nunix03" | passwd unix03
+#useradd -m -s /bin/bash unix01
+#useradd -m -s /bin/bash unix02
+#useradd -m -s /bin/bash unix03
+#echo -e "unix01\nunix01" | passwd unix01
+#echo -e "unix02\nunix02" | passwd unix02
+#echo -e "unix03\nunix03" | passwd unix03
 
 
 cp /opt/docker/ldap.conf /etc/ldap/ldap.conf
@@ -48,6 +48,11 @@ useradd -g users -G local01 local03
 useradd -g users -G kusers user01
 useradd -g users -G kusers user02
 useradd -g users -G kusers user03
+
+# COMPROBAR QUE AIXO ESTA BÉ !!:
+useradd -g users -G kusers marta
+useradd -g users -G kusers pere
+useradd -g users -G kusers anna
 
 echo -e "local01\nlocal01" | passwd local01
 echo -e "local02\nlocal02" | passwd local02
