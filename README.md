@@ -13,7 +13,7 @@ perquè utilitzi el servidor de kerberos per autentificar (buscar a servidor el 
  
 Cal el EXPOSE del dockerfile --> si. 
   
-SERVIDOR:    
+**SERVIDOR:**    
 
 sudo docker build -t balenabalena/kerberos21:kserver .  
 
@@ -22,7 +22,7 @@ sudo docker push balenabalena/kerberos21:kserver
 sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
 (ull no cal --net 2hisix)  
 
-CLIENT:  
+**CLIENT(MINILINUX):**  
  (li hem afeigt client ssh configurat per propagar tiquets keberos)
   
  sudo docker build -t balenabalena/kerberos21:khost . 
@@ -36,44 +36,66 @@ CLIENT:
     3  nmap localhost
     4  apt install krb5-user
     5  cat /etc/krb5.conf
-    6  kinit pere # ens logguejem com a per
+    6  kinit pere # ens logguejem com a pere
     7  klist   #mirem que veiem
     8  kadmin.local  #--> entrem a la linea de comandes kerberos-admin
     9  kadmin -p marta
-    10  nmap kserver.edt.org
+    10 nmap kserver.edt.org
 
 
-**RECORDAR POSAR EN EL /ETC/HOST DEL HOST CLIENT AMB LES IPS CORRESPONENTS D'AMAZON PQ S?APIGA RESOLDRE EL NOM kserver.edt.org!!!!!!**  
+RECORDAR POSAR EN EL /ETC/HOST DEL HOST CLIENT ELS FQDN AMB LES IPS CORRESPONENTS D'AMAZON PQ S'APIGA RESOLDRE EL NOM kserver.edt.org!!!!!!**  
 
 
-PROVES AL HOST CLIENT (MINI LINIUX) (CLIENT FINAL):
+ARA PROVES AL HOST CLIENT (MINI LINIUX SENSE khost_sshedtorg) (CLIENT FINAL):
 
-kinit pere 
-klist --> veure si hi ha algun tiket.
+guest@i22: kinit pere    (ens logguejem com a pere (passwd kerveros) i es generarà un tiquet)
 
-(essent local01 usuari local)
-su local01 --> i que demani password kerberos
+klist --> veiem ticket generat.
 
+(ara, essent local01 un usuari local UNIX sense password)
+su local01 --> I si demana el password kerberos "klocal01" i entra --> OK !!!
 
-----------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------
+**NOVA PRACTICA 3 CONTAINERS: khost (client ssh client kerveros) + khost_sshedtorg (servidor ssh, client kerv,pam) + kserver(serv kerb)**  
+---------------------------------------------------------------------------------------------------------------------------------------------
 
-CLIENT khost_sshedtorg
+**CLIENT khost**
+
+Igual que abans pero afegim el client ssh (configurat ssh_config pq propagui els tickets kerberos generats en conexions ssh a altres equips)
+
+**CLIENT khost_sshedtorg**
 
 CREEM UN ALTRE DOCKER CLIENT AMB KERVEROS ACCESSIBLE VIA SSH (TINDRA SERVIDOR SSH)
-(EL CLIENT FINAL ES CONECTARA VIA SSH AMB AQUEST UTILITZANT UN USUARI KERBEROS
-EX:   guest@i22: ssh user01@ssh.edt.org (user01 es un usuari kerveros)
-TAMBE TINDRA VALIDACIO PAM PER INDICAR QUE HA DE BUSCAR A KERBEROS SERVER EL PASSWORD
+(el client final (khost) es connectarà via ssh amb aquest utilitzant un usuari kerberos, i el ssh no demanarà cap autentificació si s'ha fet tot bé, ja que el client khost propagarà el tiket cap a khost_sshedtorg)
+      
+Desde khost fariem:
 
-FER MANUALMENT:
+   guest@i22: kinit user01 (AQUI SE SUPOSO QUE COMPROBARA LA CLAU PUBLICA I PROU o DEMANARA PASSWORD KERVEROS ???????????????????)
+   guest@i22: ssh -i ~/.ssh/publickey user01@ssh.edt.org     (on user01 ha d'exisistir a khost_sshedtorg i alhora ha de ser un usuari kerveros)
+	
 
-	- MODFICICACIO /etc/hosts (mirar guia practica)
+També tindrà validació PAM (al fitx system-auth) per indica que ha de buscar a kserver els PASSWORD dels usuaris.
+
+Servidor SSH : hem modificat el sshd_conf perquè acepti autentificació via kerberos.
+
+HEM DE FER MANUALMENT (de moment el script no ho fa):
+
+	- Modificació del /etc/hosts del khost i del khost_sshedtorg (mirar guia practica; 1er sempre el host "ssh.edt.org")
  
 	- Passar la public key del khost_sshedtorg al khost -->   ssh-keygen;  ramon@i22:ssh-copy-id -i ~/.ssh/mykey user03@khost
 	(L'usuari user03 ha d'exsistir a khost_sshedtorg i alhora ha de ser un usuari kerberos dins de kserver)
 
-	- Passar/exportar la clau desde servidor (kserver) fins a khost_sshedtorg (l'odre s'executa desde khost_sshedtorg) :  
-		ktadd -k /etc/krb5.keytab host/ssh.edt.org
-	  (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor)
+	- Alhora cal que el servidor (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
+      
+      EX:    kadmin -p admin -wkadmin -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
+
+**SERVIDOR kserver:**
+
+Afegim al script la següent ordre:
+kadmin.local -q "addprinc -randkey host/ssh.edt.org"    #SERVEIX PER PERMETRE A UN HOST AMB UN SERVEI XXX (p.e ssh) KERBERITZARSE (QUE PUGUI UTILTIZAR KERBEROS) si aquest disposa de la clau
+
+
 
 
 
