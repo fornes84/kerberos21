@@ -72,7 +72,7 @@ FER MANUALMENT:
 	(L'usuari user03 ha d'exsistir a khost_sshedtorg i alhora ha de ser un usuari kerberos dins de kserver)
 
 	- Passar/exportar la clau desde servidor (kserver) fins a khost_sshedtorg (l'odre s'executa desde khost_sshedtorg) :  
-		kadd -k /etc/krb5.keytab host/ssh.edt.org
+		ktadd -k /etc/krb5.keytab host/ssh.edt.org
 	  (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor)
 
 
