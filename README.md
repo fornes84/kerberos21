@@ -4,18 +4,31 @@ Tenim **pràctica1+2** on hi tenim 1 docker en el nostre host un amb el kerberos
 El servidor té un script per basicament crear els usuaris normals UNIX i alhora de kerberos (i 1 kerbero admin ?), executar els dimonis (krb5-admin-server i starkrb5-kdc).   
 També farem que el client alhora tingui configurat PAM (concretament posnat dins /etc/pam.d/ els fitx --> common-auth  common-password  common-session)
 perquè utilitzi el servidor de kerberos per autentificar (buscar a servidor el password que comença per 'k' al host kerberos) (això ho fa el modul pam_krb5) els usuaris locals que no tinguin PASSWORD i alhora es crearà un tiket validant que tenims drets com l'usuari conectat amb kerberos. 
-  
-Cal el EXPOSE del dockerfile ?  
+ 
+389 --> LDAP (NO ESTA PQ EL SERVIDOR ESTA EN UN ALTRE DOCKER)
+2200 --> SSH
+
+ 
+Cal el EXPOSE del dockerfile --> si. 
   
 SERVIDOR:  
-sudo docker build -t balenabalena/kerberos21:kserver .  
-sudo docker push balenabalena/kerberos21:kserver  
-sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464  -it balenabalena/kerberos21:kserver  
-(ull no cal --net 2hisix, no ?)  
 
-CLIENT:  
-docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balenabalena/kerberos21:ksclient  
+sudo docker build -t balenabalena/kerberos21:kserver .  
+
+sudo docker push balenabalena/kerberos21:kserver  
+
+sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
+(ull no cal --net 2hisix)  
+
+CLIENT:
+ (li hem afeigt client ssh configurat per propagar tiquets keberos)
   
+ sudo docker build -t balenabalena/kerberos21:khost . 
+ 
+ sudo docker push balenabalena/kerberos21:khost
+
+ docker run --rm --name khost.edt.org -h khost.edt.org -it balenabalena/kerberos21:kshost  
+
     1  apt update
     2  apt install vim nmap procps -y
     3  nmap localhost
@@ -31,7 +44,7 @@ docker run --rm --name kclient.edt.org -h kclient.edt.org --net 2hisix -it balen
 **RECORDAR POSAR EN EL /ETC/HOST DEL HOST CLIENT AMB LES IPS CORRESPONENTS D'AMAZON PQ S?APIGA RESOLDRE EL NOM kserver.edt.org!!!!!!**  
 
 
-PROVES AL HOST CLIENT:
+PROVES AL HOST CLIENT (MINI LINIUX) (CLIENT FINAL):
 
 kinit pere 
 klist --> veure si hi ha algun tiket.
@@ -42,6 +55,24 @@ su local01 --> i que demani password kerberos
 
 ----------------------------------------------------------------------------------------------------
 
+CLIENT khost_sshedtorg
+
+CREEM UN ALTRE DOCKER CLIENT AMB KERVEROS ACCESSIBLE VIA SSH (TINDRA SERVIDOR SSH)
+(EL CLIENT FINAL ES CONECTARA VIA SSH AMB AQUEST UTILITZANT UN USUARI KERBEROS
+EX:   guest@i22: ssh user01@ssh.edt.org (user01 es un usuari kerveros)
+TAMBE TINDRA VALIDACIO PAM PER INDICAR QUE HA DE BUSCAR A KERBEROS SERVER EL PASSWORD
+
+FER MANUALMENT:
+
+	- MODFICICACIO /etc/hosts (mirar guia practica)
+ 
+	- Passar la public key del khost_sshedtorg al khost+
+
+        - Passar la clau /etc/
+		Desde khost_sshedtorg:
+ 		kadd -k /etc/krb5.keytab host/sshserver.edt.org
+		(recordar que ha d'estar afegit com a principal abans en el servidor)
 
 
 
+ 

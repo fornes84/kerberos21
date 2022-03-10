@@ -1,5 +1,14 @@
 #! /bin/bash
 
+#PART SSH
+
+cp /opt/docker/sshd_conf /etc/ssh/sshd_conf
+mkdir /run/sshd
+/usr/sbin/sshd -D
+
+
+#PART KERBEROS
+
 cp /opt/docker/krb5.conf /etc/krb5.conf 	# Sobreescrivim els fitxers per els nostres.
 cp /opt/docker/kdc.conf /etc/krb5kdc/kdc.conf
 cp /opt/docker/kadm5.acl /etc/krb5kdc/kadm5.acl
