@@ -115,6 +115,16 @@ kadmin.local -q "addprinc -randkey host/ssh.edt.org"    #SERVEIX PER PERMETRE A 
 
 
 
+-------- -- - - -- - -- - - - - -- - - - - -- - - -
+Recordar tema ports:
+
+nmap localhost  == nmap i22 --> Veiem els ports dels nostres serveis que es comuniquen entre si
+
+nmap nostreIPpublica --> Veiem els ports dels nostres serveis i els ports que publiquem (inclosos els ports dels docker)
+
+DINS DEL DOCKERFILE EXPOSE 20--> El docker compartira/donara visibilitat al port del servei en el host on es desplegat
+QUAN FEM docker run -p 2200:22 el que estem fent es agafar el port del servei del docker (ex ssh) fem que les peticions del host s'escoltin per el 2200.
+ -- - - - - - -- 
 
 
  
