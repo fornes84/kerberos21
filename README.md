@@ -20,7 +20,11 @@ sudo docker build -t balenabalena/kerberos21:kserver .
 sudo docker push balenabalena/kerberos21:kserver  
 
 sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
-(ull no cal --net 2hisix)  
+(ull no cal --net 2hisix per AWS) 
+ 
+sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
+
+
 
 **CLIENT(MINILINUX):**  
  (li hem afeigt client ssh configurat per propagar tiquets keberos)
@@ -30,6 +34,7 @@ sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:
  sudo docker push balenabalena/kerberos21:khost
 
  docker run --rm --name khost.edt.org -h khost.edt.org -it balenabalena/kerberos21:kshost  
+ docker run --rm --name khost.edt.org -h khost.edt.org --net 2hisix -it balenabalena/kerberos21:kshost
 
     1  apt update
     2  apt install vim nmap procps -y
