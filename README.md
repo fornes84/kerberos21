@@ -64,11 +64,13 @@ su local01 --> I si demana el password kerberos "klocal01" i entra --> OK !!!
 **NOVA PRACTICA 3 CONTAINERS: khost (client ssh client kerveros) + khost_sshedtorg (servidor ssh, client kerv,pam) + kserver(serv kerb)**  
 ---------------------------------------------------------------------------------------------------------------------------------------------
 
+Aquesta pràctica consiteix en que si creem un tiquet per a un usuari kerberos en un host client kerberos(khost), i fem un ssh cap  a un altre client kerberos amb servidor ssh, el ticket ha de valid per al ssh com autentificació i així no demanar-nos password (encara que en sshd_conf estigui habilitat).
+
+RECORDAR que per autentificar-nos per ssh ho podem fer de 3 maneres, usuari-passd, clau publica-privada, i per kerberos (ticket). 
+
 **CLIENT khost**
 
 Igual que abans pero afegim el client ssh (configurat ssh_config pq propagui els tickets kerberos generats en conexions ssh a altres equips)
-
-
 
 
 **CLIENT khost_sshedtorg**
