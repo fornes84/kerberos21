@@ -1,7 +1,7 @@
 # kerberos server
 FROM debian:latest
 LABEL version="1.0"
-LABEL author="@edt ASIX-M06"
+LABEL author="@edt ASIX-M11"
 LABEL subject="Kerberos client amb ssh"
 RUN apt-get update
 ARG DEBIAN_FRONTEND=noninteractive
@@ -11,4 +11,4 @@ COPY * /opt/docker/
 RUN chmod +x /opt/docker/startup.sh
 WORKDIR /opt/docker
 CMD /opt/docker/startup.sh
-EXPOSE 2200
+EXPOSE 2200 22

@@ -68,15 +68,26 @@ su local01 --> I si demana el password kerberos "klocal01" i entra --> OK !!!
 
 Igual que abans pero afegim el client ssh (configurat ssh_config pq propagui els tickets kerberos generats en conexions ssh a altres equips)
 
+
+
+
 **CLIENT khost_sshedtorg**
 
-CREEM UN ALTRE DOCKER CLIENT AMB KERVEROS ACCESSIBLE VIA SSH (TINDRA SERVIDOR SSH)
+ sudo docker build -t balenabalena/kerberos21:khost_sshedtorg . 
+ 
+ sudo docker push balenabalena/kerberos21:khost_sshedtorg
+
+ docker run --rm --name khost.edt.org -h khost.edt.org -p 2200:22 --net 2hisix -d balenabalena/kerberos21:kshost_sshedtorg
+
+ docker exec -it khost.edt.org /bin/bash
+ 
+CREEM UN ALTRE DOCKER CLIENT AMB KERBEROS ACCESSIBLE VIA SSH (TINDRA SERVIDOR SSH)
 (el client final (khost) es connectarà via ssh amb aquest utilitzant un usuari kerberos, i el ssh no demanarà cap autentificació si s'ha fet tot bé, ja que el client khost propagarà el tiket cap a khost_sshedtorg)
       
 Desde khost fariem:
 
-   guest@i22: kinit user01 (AQUI SE SUPOSO QUE COMPROBARA LA CLAU PUBLICA I PROU o DEMANARA PASSWORD KERVEROS ???????????????????)
-   guest@i22: ssh -i ~/.ssh/publickey user01@ssh.edt.org     (on user01 ha d'exisistir a khost_sshedtorg i alhora ha de ser un usuari kerveros)
+   guest@i22: kinit user01 
+   guest@i22: ssh user01@ssh.edt.org     (on user01 ha d'exisistir a khost_sshedtorg i alhora ha de ser un usuari kerveros)
 	
 
 També tindrà validació PAM (al fitx system-auth) per indica que ha de buscar a kserver els PASSWORD dels usuaris.
@@ -92,7 +103,7 @@ HEM DE FER MANUALMENT (de moment el script no ho fa):
 
 	- Alhora cal que el servidor (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
       
-      EX:    kadmin -p admin -wkadmin -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+      EX:    kadmin -p admin -kadmin -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
 	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
 
 **SERVIDOR kserver:**

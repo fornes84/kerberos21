@@ -1,1 +1,1 @@
-docker run --rm --name khostp.edt.org -h khostp.edt.org --net 2hisix -it rubeeenrg/kerberos21:khost_pam21
+docker run --rm --name ssh.edt.org -h ssh.edt.org --net 2hisix -p 22:2200 -d balenabalena/kerberos21:khost_sshedtorg
