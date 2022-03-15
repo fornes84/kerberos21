@@ -22,7 +22,7 @@ sudo docker push balenabalena/kerberos21:kserver
 sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
 (ull no cal --net 2hisix per AWS) 
  
-sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
+sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -d balenabalena/kerberos21:kserver  
 
 
 
@@ -79,9 +79,9 @@ Igual que abans pero afegim el client ssh (configurat ssh_config pq propagui els
  
  sudo docker push balenabalena/kerberos21:khost_sshedtorg
 
- docker run --rm --name khost.edt.org -h khost.edt.org -p 2200:22 --net 2hisix -d balenabalena/kerberos21:kshost_sshedtorg
+ docker run --rm --name ssh.edt.org -h ssh.edt.org -p 2200:22 --net 2hisix -d balenabalena/kerberos21:kshost_sshedtorg
 
- docker exec -it khost.edt.org /bin/bash
+ docker exec -it ssh.edt.org /bin/bash
  
 CREEM UN ALTRE DOCKER CLIENT AMB KERBEROS ACCESSIBLE VIA SSH (TINDRA SERVIDOR SSH)
 (el client final (khost) es connectarà via ssh amb aquest utilitzant un usuari kerberos, i el ssh no demanarà cap autentificació si s'ha fet tot bé, ja que el client khost propagarà el tiket cap a khost_sshedtorg)
@@ -100,12 +100,11 @@ HEM DE FER MANUALMENT (de moment el script no ho fa):
 
 	- Modificació del /etc/hosts del khost i del khost_sshedtorg (mirar guia practica; 1er sempre el host "ssh.edt.org")
  
-	- Passar la public key del khost_sshedtorg al khost -->   ssh-keygen;  ramon@i22:ssh-copy-id -i ~/.ssh/mykey user03@khost
-	(L'usuari user03 ha d'exsistir a khost_sshedtorg i alhora ha de ser un usuari kerberos dins de kserver)
+	(L'usuari user01 ha d'exsistir a khost_sshedtorg i alhora ha de ser un usuari kerberos dins de kserver)
 
-	- Alhora cal que el servidor (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
+	- Alhora cal que el servidor SSH (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
       
-      EX:    kadmin -p admin -kadmin -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+      EX:    kadmin -p admin -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
 	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
 
 **SERVIDOR kserver:**
@@ -115,8 +114,8 @@ kadmin.local -q "addprinc -randkey host/ssh.edt.org"    #SERVEIX PER PERMETRE A 
 
 
 
--------- -- - - -- - -- - - - - -- - - - - -- - - -
-Recordar tema ports:
+-------- ------------------------ - - -- - -- - - - - -- - - - - -- - - -
+A RECORDAR:
 
 nmap localhost  == nmap i22 --> Veiem els ports dels nostres serveis que es comuniquen entre si
 

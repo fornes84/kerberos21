@@ -3,8 +3,12 @@
 #PART KERBEROS
 cp /opt/docker/krb5.conf /etc/krb5.conf
 # Sobreescrivim els fitxers per els nostres.
-#cp /opt/docker/kdc.conf /etc/krb5kdc/kdc.conf
-cp /opt/docker/system-auth /etc/pam.d/system-auth
+#cp /opt/docker/system-auth /etc/pam.d/system-auth
+
+cp /opt/docker/common-auth /etc/pam.d/common-auth
+#cp /opt/docker/common-session /etc/pam.d/common-session
+cp /opt/docker/common-account /etc/pam.d/common-account
+cp /opt/docker/common-password /etc/pam.d/common-password
 
 groupadd local01
 groupadd kusers
