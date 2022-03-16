@@ -43,6 +43,7 @@ PermitRootLogin yes
 #MaxSessions 10
 
 #PubkeyAuthentication yes
+#JOAN?
 
 # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
 # but this is overridden so installations will only check .ssh/authorized_keys
@@ -71,9 +72,11 @@ PasswordAuthentication yes
 ChallengeResponseAuthentication no
 
 # Kerberos options
-KerberosAuthentication yes     #<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
+KerberosAuthentication yes
+#<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
 #KerberosOrLocalPasswd yes 
-KerberosTicketCleanup yes  #<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
+KerberosTicketCleanup yes
+#<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
 #KerberosGetAFSToken no
 #KerberosUseKuserok yes  
 ##<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS. No cal Marc
@@ -82,8 +85,8 @@ KerberosTicketCleanup yes  #<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
 # GSSAPI options
 # Si es configura en el client les dues directives apropiades llavors en la sessió remota (en el destí) es propagarà el ticket i també el tindrà.
 #
-GSSAPIAuthentication yes # AIXO NO SE SI CAL
-GSSAPICleanupCredentials no  # AIXO NO SE SI CAL
+GSSAPIAuthentication yes
+GSSAPICleanupCredentials no
 #GSSAPIStrictAcceptorCheck yes
 #GSSAPIKeyExchange no
 #GSSAPIEnablek5users no

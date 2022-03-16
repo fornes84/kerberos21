@@ -11,4 +11,4 @@ COPY * /opt/docker/
 RUN chmod +x /opt/docker/startup.sh
 WORKDIR /opt/docker
 CMD /opt/docker/startup.sh
-EXPOSE 2200 22
+EXPOSE 22
