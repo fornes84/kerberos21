@@ -88,8 +88,8 @@ CREEM UN ALTRE DOCKER CLIENT AMB KERBEROS ACCESSIBLE VIA SSH (TINDRA SERVIDOR SS
       
 Desde khost fariem:
 
-   guest@i22: kinit user01 
-   guest@i22: ssh user01@ssh.edt.org     (on user01 ha d'exisistir a khost_sshedtorg i alhora ha de ser un usuari kerveros)
+   guest@i22: kinit user02 
+   guest@i22: ssh user02@ssh.edt.org     (on user02 ha d'exisistir a khost_sshedtorg i alhora ha de ser un usuari kerveros)
 	
 
 També tindrà validació PAM (al fitx system-auth) per indica que ha de buscar a kserver els PASSWORD dels usuaris.
@@ -104,7 +104,7 @@ Servidor SSH : hem modificat el sshd_conf perquè acepti autentificació via ker
 
 	- Alhora cal que el servidor SSH (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
       
-      kadmin -p user01 -w kuser01 -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+      kadmin -p user01/admin -w kuser01 -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
 
 	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
 
@@ -116,21 +116,20 @@ kadmin.local -q "listprincs" --> llistem usuaris kerveros
 kadmin -p user01/admin --> entrar com a admin
 kadmin -p user02/admin --> entrar com a usuari
 
-Afegim al script la següent ordre:
+al script hem de tenir la següent ordre:
 
 kadmin.local -q "addprinc -randkey host/ssh.edt.org"   
-
  #SERVEIX PER CREAR UNA CLAU QUE SI UN HOST L'IMPORTA EL SERVEI XXX (p.e ssh) PODRA  KERBERITZARSE (QUE PUGUI UTILTIZAR KERBEROS)
 
 
 
 ----------------------------------------------------------------------
-**PROVES: AL ssh.edt.orh**
+**PROVES: AL ssh.edt.org**
 
 Si el principal de host que s'ha creat al servidor kerberos és host/sshd.edt.org es podrà realitzar l'accés kerberitzat només si es connecta al servidor usant aquest hosname. És a dir, amb les ordres:
 
-ssh user01@sshd.edt.org  (OK) 
-ssh user01@localhost     (NO!) --> PERO ENS VA BE PER VEURE SI SSH VA BE !
+ssh user02@ssh.edt.org  (OK) 
+ssh user02@localhost     (NO!) --> PERO ENS VA BE PER VEURE SI SSH VA BE !
 
 ALTRE PROVA:
 
@@ -139,9 +138,9 @@ Un cop obtingui ticket l'usuari local01 realitza l'ordre ssh user01@sshd.edt.org
 i
 si fem:
 
-[user01@sshd ~]$ klist 
+[user02@sshd ~]$ klist 
 Ticket cache: FILE:/tmp/krb5cc_1003_h55yoBfeGG
-Default principal: user01@EDT.ORG
+Default principal: user02@EDT.ORG
 Valid starting     Expires            Service principal
 02/22/19 16:49:35  02/23/19 16:49:35  krbtgt/EDT.ORG@EDT.ORG
 02/22/19 16:49:56  02/23/19 16:49:35  host/sshd.edt.org@EDT.ORG
@@ -151,7 +150,14 @@ Valid starting     Expires            Service principal
 
 **PROVES EN EL khost:**
 
-Idem
+/etc/hosts:
+
+172.19.0.1 ssh.edt.org kserver.edt.org
+(la IP es la del host, no es cap docker)
+
++
+
+Idem que adalt.
 
 
 -------- ------------------------ - - -- - -- - - - - -- - - - - -- - - -
@@ -162,7 +168,7 @@ nmap localhost  == nmap i22 --> Veiem els ports dels nostres serveis que es comu
 
 nmap nostreIPpublica --> Veiem els ports dels nostres serveis i els ports que publiquem (inclosos els ports dels docker)
 
-DINS DEL DOCKERFILE EXPOSE 20--> El docker compartira/donara visibilitat al port del servei en el host on es desplegat
+DINS DEL DOCKERFILE EXPOSE 22--> El docker compartira/donara visibilitat al port del servei en el host on es desplegat
 QUAN FEM docker run -p 2200:22 el que estem fent es agafar el port del servei del docker (ex ssh) fem que les peticions del host s'escoltin per el 2200.
  -- - - - - - -- 
 
