@@ -5,15 +5,12 @@ cp /opt/docker/kdc.conf /etc/krb5kdc/kdc.conf
 cp /opt/docker/kadm5.acl /etc/krb5kdc/kadm5.acl
 
 kdb5_util create -s -P masterkey 
-#??
-#kadmin.local -q "addprinc -pw kalpaca alpaca"
-#kadmin.local -q "addprinc -pw kpere pere"
-#kadmin.local -q "addprinc -pw kmarta marta"
-#kadmin.local -q "addprinc -pw kanna anna"
+#ADALT??
 
-kadmin.local -q "addprinc -pw kadmin admin"
+#kadmin.local -q "addprinc -pw kadmin admin" 
+# NO SE SI CAL
 
-kadmin.local -q "addprinc -pw kuser01 user01"
+kadmin.local -q "addprinc -pw kuser01 user01/admin"
 kadmin.local -q "addprinc -pw kuser02 user02"
 kadmin.local -q "addprinc -pw kuser03 user03"
 

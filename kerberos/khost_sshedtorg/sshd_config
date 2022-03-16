@@ -75,7 +75,8 @@ KerberosAuthentication yes     #<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
 #KerberosOrLocalPasswd yes 
 KerberosTicketCleanup yes  #<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
 #KerberosGetAFSToken no
-KerberosUseKuserok yes  #<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS
+#KerberosUseKuserok yes  
+##<-- CANVI IMPORTANT PQ FUNCIONI AUTENT KERBEROS. No cal Marc
 
 
 # GSSAPI options

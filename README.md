@@ -96,25 +96,66 @@ També tindrà validació PAM (al fitx system-auth) per indica que ha de buscar 
 
 Servidor SSH : hem modificat el sshd_conf perquè acepti autentificació via kerberos.
 
-HEM DE FER MANUALMENT (de moment el script no ho fa):
+**HEM DE FER MANUALMENT (de moment el script no ho fa):**
 
 	- Modificació del /etc/hosts del khost i del khost_sshedtorg (mirar guia practica; 1er sempre el host "ssh.edt.org")
  
-	(L'usuari user01 ha d'exsistir a khost_sshedtorg i alhora ha de ser un usuari kerberos dins de kserver)
+	(recordar els usuari user01,user02,user03 han d'exsistir a khost_sshedtorg i alhora ha de ser usuaris kerberos dins de kserver)
 
 	- Alhora cal que el servidor SSH (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
       
-      EX:    kadmin -p admin -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+      kadmin -p user01 -w kuser01 -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+
 	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
 
 **SERVIDOR kserver:**
 
-Afegim al script la següent ordre:
-kadmin.local -q "addprinc -randkey host/ssh.edt.org"    #SERVEIX PER PERMETRE A UN HOST AMB UN SERVEI XXX (p.e ssh) KERBERITZARSE (QUE PUGUI UTILTIZAR KERBEROS) si aquest disposa de la clau
+PROVEM:
+kadmin.local -q "listprincs" --> llistem usuaris kerveros
 
+kadmin -p user01/admin --> entrar com a admin
+kadmin -p user02/admin --> entrar com a usuari
+
+Afegim al script la següent ordre:
+
+kadmin.local -q "addprinc -randkey host/ssh.edt.org"   
+
+ #SERVEIX PER CREAR UNA CLAU QUE SI UN HOST L'IMPORTA EL SERVEI XXX (p.e ssh) PODRA  KERBERITZARSE (QUE PUGUI UTILTIZAR KERBEROS)
+
+
+
+----------------------------------------------------------------------
+**PROVES: AL ssh.edt.orh**
+
+Si el principal de host que s'ha creat al servidor kerberos és host/sshd.edt.org es podrà realitzar l'accés kerberitzat només si es connecta al servidor usant aquest hosname. És a dir, amb les ordres:
+
+ssh user01@sshd.edt.org  (OK) 
+ssh user01@localhost     (NO!) --> PERO ENS VA BE PER VEURE SI SSH VA BE !
+
+ALTRE PROVA:
+
+l'usuari local01 sol·licita un ticket de user01 amb l'ordre kinit user01.
+Un cop obtingui ticket l'usuari local01 realitza l'ordre ssh user01@sshd.edt.org i no li ha demanar passwd.
+i
+si fem:
+
+[user01@sshd ~]$ klist 
+Ticket cache: FILE:/tmp/krb5cc_1003_h55yoBfeGG
+Default principal: user01@EDT.ORG
+Valid starting     Expires            Service principal
+02/22/19 16:49:35  02/23/19 16:49:35  krbtgt/EDT.ORG@EDT.ORG
+02/22/19 16:49:56  02/23/19 16:49:35  host/sshd.edt.org@EDT.ORG
+
+ a més a més del seu ticket té el ticket del servidor sshd, que li permet iniciar sessió ssh de manera desatesa.
+
+
+**PROVES EN EL khost:**
+
+Idem
 
 
 -------- ------------------------ - - -- - -- - - - - -- - - - - -- - - -
+
 A RECORDAR:
 
 nmap localhost  == nmap i22 --> Veiem els ports dels nostres serveis que es comuniquen entre si

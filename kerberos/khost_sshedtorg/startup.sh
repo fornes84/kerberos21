@@ -6,7 +6,7 @@ cp /opt/docker/krb5.conf /etc/krb5.conf
 #cp /opt/docker/system-auth /etc/pam.d/system-auth
 
 cp /opt/docker/common-auth /etc/pam.d/common-auth
-#cp /opt/docker/common-session /etc/pam.d/common-session
+cp /opt/docker/common-session /etc/pam.d/common-session
 cp /opt/docker/common-account /etc/pam.d/common-account
 cp /opt/docker/common-password /etc/pam.d/common-password
 
@@ -29,8 +29,11 @@ useradd -g users -G kusers user03
 
 
 # PART SERVIDOR SSH
-cp /opt/docker/sshd_conf /etc/ssh/sshd_conf
-mkdir -p /run/sshd
+cp /opt/docker/sshd_config /etc/ssh/sshd_config
+cp /opt/docker/ssh_config /etc/ssh/ssh_config
+# NO SE SI CAL LA LINEA D_ADALAT
+#cp /opt/docker/krb5.keytab /etc/krb5.keytab
+mkdir /run/sshd
 /usr/sbin/sshd -D
 
 #/bin/bash
