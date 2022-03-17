@@ -20,10 +20,8 @@ sudo docker build -t balenabalena/kerberos21:kserver .
 sudo docker push balenabalena/kerberos21:kserver  
 
 sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
-(ull no cal --net 2hisix per AWS) 
  
-sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -d balenabalena/kerberos21:kserver  
-
+sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 --net 2hisix -d balenabalena/kerberos21:kserver  
 
 
 **CLIENT(MINILINUX):**  
@@ -79,7 +77,7 @@ Igual que abans pero afegim el client ssh (configurat ssh_config pq propagui els
  
  sudo docker push balenabalena/kerberos21:khost_sshedtorg
 
- docker run --rm --name ssh.edt.org -h ssh.edt.org -p 2200:22 --net 2hisix -d balenabalena/kerberos21:kshost_sshedtorg
+ docker run --rm --name ssh.edt.org -h ssh.edt.org -p 2200:22 --net 2hisix -d balenabalena/kerberos21:khost_sshedtorg
 
  docker exec -it ssh.edt.org /bin/bash
  
