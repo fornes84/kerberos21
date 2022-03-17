@@ -10,9 +10,13 @@ kdb5_util create -s -P masterkey
 #kadmin.local -q "addprinc -pw kadmin admin" 
 # NO SE SI CAL
 
+for user in kuser{01..03} 
+do
+  kadmin.local -q "addprinc -pw k$user $user"
+done
+
 kadmin.local -q "addprinc -pw kuser01 user01/admin"
-kadmin.local -q "addprinc -pw kuser02 user02"
-kadmin.local -q "addprinc -pw kuser03 user03"
+
 
 #for user in kuser{01..03}
 #do
