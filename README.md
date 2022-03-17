@@ -104,16 +104,15 @@ Servidor SSH : hem modificat el sshd_conf perquè acepti autentificació via ker
       
       kadmin -p user01/admin -w kuser01 -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
       
-------------ADALT NO VA------------------
+------------SI LO D'ADALT NO VA (NO PROPAGA EL TICKET VIA SSH)------------------
 
 root@ssh:/opt/docker# kadmin
 Authenticating as principal user01/admin@EDT.ORG with password.
 Password for user01/admin@EDT.ORG: 
 kadmin:  ktadd -k /etc/krb5.keytab  host/ssh.edt.org
 Entry for principal host/ssh.edt.org with kvno 5, encryption type aes256-cts-hmac-sha1-96 added to keytab WRFILE:/etc/krb5.keytab.
-Entry for principal host/ssh.edt.org with kvno 5, encryption type aes128-cts-hmac-sha1-96 added to keytab WRFILE:/etc/krb5.keytab.
-kadmin: ktadd -k /etc/krb5.keytab  host/ssh.edt.org
 
+kadmin: ktadd -k /etc/krb5.keytab  host/ssh.edt.org
 
 ---------------------------------------------------------------------
 
@@ -137,6 +136,13 @@ kadmin.local -q "addprinc -randkey host/ssh.edt.org"
 ----------------------------------------------------------------------
 **PROVES: AL ssh.edt.org**
 
+vim /etc/hosts
+
+Posar la IP local de container de kserver.edt.org i el seu propi:
+
+172.18.0.2 ssh.edt.org
+172.18.0.3  kserver.edt.org
+
 Si el principal de host que s'ha creat al servidor kerberos és host/sshd.edt.org es podrà realitzar l'accés kerberitzat només si es connecta al servidor usant aquest hosname. És a dir, amb les ordres:
 
 ssh user02@ssh.edt.org  (OK) 
@@ -155,6 +161,8 @@ Default principal: user02@EDT.ORG
 Valid starting     Expires            Service principal
 02/22/19 16:49:35  02/23/19 16:49:35  krbtgt/EDT.ORG@EDT.ORG
 02/22/19 16:49:56  02/23/19 16:49:35  host/sshd.edt.org@EDT.ORG
+
+**kdestroy (molt importat destruir ticket després de cada prova)**
 
  a més a més del seu ticket té el ticket del servidor sshd, que li permet iniciar sessió ssh de manera desatesa.
 
