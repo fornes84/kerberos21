@@ -131,8 +131,6 @@ al script hem de tenir la següent ordre:
 kadmin.local -q "addprinc -randkey host/ssh.edt.org"   
  #SERVEIX PER CREAR UNA CLAU QUE SI UN HOST L'IMPORTA EL SERVEI XXX (p.e ssh) PODRA  KERBERITZARSE (QUE PUGUI UTILTIZAR KERBEROS)
 
-
-
 ----------------------------------------------------------------------
 **PROVES: AL ssh.edt.org**
 
@@ -173,6 +171,12 @@ Valid starting     Expires            Service principal
 
 172.19.0.1 ssh.edt.org kserver.edt.org
 (la IP es la del host, no es cap docker)
+
+kinit user02
+
+kdestroy
+
+
 
 +
 
