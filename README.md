@@ -25,14 +25,15 @@ sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 7
 
 
 **CLIENT(MINILINUX):**  
+
  (li hem afeigt client ssh configurat per propagar tiquets keberos)
   
  sudo docker build -t balenabalena/kerberos21:khost . 
  
  sudo docker push balenabalena/kerberos21:khost
 
- docker run --rm --name khost.edt.org -h khost.edt.org -it balenabalena/kerberos21:kshost  
- docker run --rm --name khost.edt.org -h khost.edt.org --net 2hisix -it balenabalena/kerberos21:kshost
+ docker run --rm --name khost.edt.org -h khost.edt.org -it balenabalena/kerberos21:khost21  
+ docker run --rm --name khost.edt.org -h khost.edt.org --net 2hisix -it balenabalena/kerberos21:khost21
 
     1  apt update
     2  apt install vim nmap procps -y
