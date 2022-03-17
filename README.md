@@ -103,6 +103,19 @@ Servidor SSH : hem modificat el sshd_conf perquè acepti autentificació via ker
 	- Alhora cal que el servidor SSH (o més aviat el servei sshd) estigui kerberitzat per tal d'aceptar tiquet per tal d'autentificar, per tant importem la clau.
       
       kadmin -p user01/admin -w kuser01 -q "ktadd -k /etc/krb5.keytab  host/ssh.edt.org"
+      
+------------ADALT NO VA------------------
+
+root@ssh:/opt/docker# kadmin
+Authenticating as principal user01/admin@EDT.ORG with password.
+Password for user01/admin@EDT.ORG: 
+kadmin:  ktadd -k /etc/krb5.keytab  host/ssh.edt.org
+Entry for principal host/ssh.edt.org with kvno 5, encryption type aes256-cts-hmac-sha1-96 added to keytab WRFILE:/etc/krb5.keytab.
+Entry for principal host/ssh.edt.org with kvno 5, encryption type aes128-cts-hmac-sha1-96 added to keytab WRFILE:/etc/krb5.keytab.
+kadmin: ktadd -k /etc/krb5.keytab  host/ssh.edt.org
+
+
+---------------------------------------------------------------------
 
 	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
 
