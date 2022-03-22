@@ -156,11 +156,11 @@ i
 si fem:
 
 [user02@ssh ~]$ klist 
-Ticket cache: FILE:/tmp/krb5cc_1003_h55yoBfeGG
-Default principal: user02@EDT.ORG
-Valid starting     Expires            Service principal
-02/22/19 16:49:35  02/23/19 16:49:35  krbtgt/EDT.ORG@EDT.ORG
-02/22/19 16:49:56  02/23/19 16:49:35  host/ssh.edt.org@EDT.ORG
+Ticket cache: FILE:/tmp/krb5cc_1003_h55yoBfeGG  
+Default principal: user02@EDT.ORG  
+Valid starting     Expires            Service principal  
+02/22/19 16:49:35  02/23/19 16:49:35  krbtgt/EDT.ORG@EDT.ORG  
+02/22/19 16:49:56  02/23/19 16:49:35  host/ssh.edt.org@EDT.ORG  
 
 **kdestroy (molt importat destruir ticket després de cada prova)**
 
