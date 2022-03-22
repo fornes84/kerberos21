@@ -1,7 +1,7 @@
 # kerberos client
 FROM debian:latest
 LABEL version="1.0"
-LABEL author="@edt ASIX-M06"
+LABEL author="@edt ASIX-M11"
 LABEL subject="Kerberos client minilinux"
 RUN apt-get update
 ARG DEBIAN_FRONTEND=noninteractive
