@@ -141,7 +141,7 @@ Posar la IP local de container de kserver.edt.org i el seu propi:
 172.18.0.2 ssh.edt.org
 172.18.0.3  kserver.edt.org
 
-Si el principal de host que s'ha creat al servidor kerberos és host/sshd.edt.org es podrà realitzar l'accés kerberitzat només si es connecta al servidor usant aquest hosname. És a dir, amb les ordres:
+Si el principal de host que s'ha creat al servidor kerberos és host/ssh.edt.org es podrà realitzar l'accés kerberitzat només si es connecta al servidor usant aquest hosname. És a dir, amb les ordres:
 
 
 ssh user02@localhost     (NO DEMOSTRA RES!) --> PERO ENS VA BE PER VEURE SI SSH VA BE !
