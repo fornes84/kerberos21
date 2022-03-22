@@ -124,7 +124,7 @@ PROVEM:
 kadmin.local -q "listprincs" --> llistem usuaris kerveros
 
 kadmin -p user01/admin --> entrar com a admin
-kadmin -p user02/admin --> entrar com a usuari
+kadmin -p user02 --> entrar com a usuari
 
 al script hem de tenir la següent ordre:
 
@@ -143,22 +143,24 @@ Posar la IP local de container de kserver.edt.org i el seu propi:
 
 Si el principal de host que s'ha creat al servidor kerberos és host/sshd.edt.org es podrà realitzar l'accés kerberitzat només si es connecta al servidor usant aquest hosname. És a dir, amb les ordres:
 
+
+ssh user02@localhost     (NO DEMOSTRA RES!) --> PERO ENS VA BE PER VEURE SI SSH VA BE !
 ssh user02@ssh.edt.org  (OK) 
-ssh user02@localhost     (NO!) --> PERO ENS VA BE PER VEURE SI SSH VA BE !
+
 
 ALTRE PROVA:
 
-l'usuari local01 sol·licita un ticket de user01 amb l'ordre kinit user01.
-Un cop obtingui ticket l'usuari local01 realitza l'ordre ssh user01@sshd.edt.org i no li ha demanar passwd.
+l'usuari local01 sol·licita un ticket de user01 amb l'ordre kinit user02.
+Un cop obtingui ticket l'usuari local01 realitza l'ordre ssh user02@ssh.edt.org i no li ha demanar passwd.
 i
 si fem:
 
-[user02@sshd ~]$ klist 
+[user02@ssh ~]$ klist 
 Ticket cache: FILE:/tmp/krb5cc_1003_h55yoBfeGG
 Default principal: user02@EDT.ORG
 Valid starting     Expires            Service principal
 02/22/19 16:49:35  02/23/19 16:49:35  krbtgt/EDT.ORG@EDT.ORG
-02/22/19 16:49:56  02/23/19 16:49:35  host/sshd.edt.org@EDT.ORG
+02/22/19 16:49:56  02/23/19 16:49:35  host/ssh.edt.org@EDT.ORG
 
 **kdestroy (molt importat destruir ticket després de cada prova)**
 
