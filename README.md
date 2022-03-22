@@ -21,7 +21,7 @@ sudo docker push balenabalena/kerberos21:kserver
 
 sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 -it balenabalena/kerberos21:kserver  
  
-sudo docker run --rm --name kserver.edt.org --net 2hisix -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 --net 2hisix -d balenabalena/kerberos21:kserver  
+sudo docker run --rm --name kserver.edt.org -h kserver.edt.org -p 749:749 -p 88:88 -p 464:464 --net 2hisix -d balenabalena/kerberos21:kserver  
 
 
 **CLIENT(MINILINUX):**  
@@ -77,7 +77,7 @@ Igual que abans pero afegim el client ssh (configurat ssh_config pq propagui els
  
  sudo docker push balenabalena/kerberos21:khost_sshedtorg
 
- docker run --rm --name ssh.edt.org -h ssh.edt.org -p 2200:22 --net 2hisix -d balenabalena/kerberos21:khost_sshedtorg
+ docker run --rm --name ssh.edt.org -h ssh.edt.org --network 2hisix -p 2200:22  -d balenabalena/kerberos21:khost_sshedtorg
 
  docker exec -it ssh.edt.org /bin/bash
  
@@ -119,6 +119,9 @@ kadmin: ktadd -k /etc/krb5.keytab  host/ssh.edt.org
 	    (recordar que ha d'estar afegit "host/ssh.edt.org" com a principal abans en el servidor) (aquí sota ho veiem)
 
 **SERVIDOR kserver:**
+***MOLT IMPORTANT editar al /etc/hosts *** 
+172.18.0.2 ssh.edt.org
+172.18.0.3  kserver.edt.org
 
 PROVEM:
 kadmin.local -q "listprincs" --> llistem usuaris kerveros
@@ -164,7 +167,8 @@ Valid starting     Expires            Service principal
 
 **kdestroy (molt importat destruir ticket després de cada prova)**
 
- a més a més del seu ticket té el ticket del servidor sshd, que li permet iniciar sessió ssh de manera desatesa.
+ a més a més del seu ticket té el ticket del servidor sshd, que li permet iniciar sessió ssh de manera desatesa
+ o sigui .
 
 
 **PROVES EN EL khost:**
