@@ -166,13 +166,13 @@ Valid starting     Expires            Service principal
 02/22/19 16:49:56  02/23/19 16:49:35  host/ssh.edt.org@EDT.ORG  
 
 ara fem:
-ssh -p 2200 user02@ssh.edt.org
+	ssh -p 2200 user02@ssh.edt.org
 
 ara veurem 2 tickets
 
 klist
 
- a més a més del seu ticket té el ticket del servidor sshd, que li permet iniciar sessió ssh de manera desatesa
+ a més del seu ticket té el ticket del servidor sshd, que li permet iniciar sessió ssh de manera desatesa
  o sigui .
 
 **kdestroy (molt importat destruir ticket després de cada prova)**
@@ -185,6 +185,8 @@ klist
 (la IP es la del host, no es cap docker)
 
 kinit user02
+
+ssh -p 2200 user02@ssh.edt.org
 
 kdestroy
 
